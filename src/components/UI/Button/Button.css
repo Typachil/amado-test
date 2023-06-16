@@ -1,0 +1,26 @@
+.btn{
+    min-width: 318px;
+    height: 42px;
+    border-radius: 3px;
+    text-align: center;
+    border: none;
+    font-size: 20px;
+    color: var(--color-light);
+    cursor: pointer;
+}
+
+.btn:hover{
+    opacity: 85%;
+}
+
+.btn-default{
+    background-color: var(--color-primary);
+}
+
+.btn-cancel{
+    background-color: var(--color-danger);
+}
+
+.btn_disabled{
+    background-color: var(--color-light-gray);
+}

@@ -1,0 +1,54 @@
+.products-list__wrapper{
+    padding-left: 520px;
+    padding-top: 50px;
+}
+
+.products-list{
+    display: flex;
+    gap: 50px;
+    flex-wrap:wrap;
+}
+
+.products-empty{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+}
+
+.products-empty img{
+    width: 235px;
+    height: 235px;
+}
+
+.products-empty h2{
+    font-family: 'Inter Bold', 'Times New Roman', sans-serif, serif;
+    font-size: 40px;
+}
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 10px solid var(--color-dark);
+  border-color: var(--color-dark) transparent var(--color-dark) transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
