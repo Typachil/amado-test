@@ -1,5 +1,6 @@
 const fs = require("fs")
-const pathFile = __dirname + '/src/images/'
+const pathFile = __dirname + '/src/uploads/'
+console.log(pathFile);
 function deleteFile(name) {
   fs.unlink(pathFile + name, (err) => {
     if(err) {
@@ -36,7 +37,7 @@ class Controller {
     }
     if(req.files){
       createFile(newProduct.id, req.files.image)
-      newProduct.image = newProduct.id + req.files.image.name
+      newProduct.image = "/src/uploads/" + newProduct.id + req.files.image.name
     }else{
       newProduct.image = ""
     }
@@ -61,7 +62,7 @@ class Controller {
         if(product.image){
           deleteFile(product.image)
           createFile(product.id, req.files.image)
-          product.image = product.id + req.files.image.name
+          product.image = "/src/uploads/" + product.id + req.files.image.name
         }
         product.title = title
         product.price = price
@@ -76,7 +77,6 @@ class Controller {
 
   async deleteProduct(req, res) {
     const id = req.params.id
-    console.log(id)
     let products = getJsonProducts()
     const currentProduct = products.find(product => product.id === +id)
     if(currentProduct) {

@@ -1,9 +1,8 @@
 const express = require('express')
-const routesRouter = require('./database/router')
+const routesRouter = require('./router')
 const PORT = 3030
 const api = express()
 const fileUpload = require('express-fileupload');
-api.use(express.static('src'));
 
 api.use(fileUpload({
   createParentPath: true

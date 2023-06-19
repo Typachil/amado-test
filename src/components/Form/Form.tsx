@@ -8,11 +8,10 @@ import { useAddNewProductMutation, useUpdateProductMutation } from '../../store/
 import { setCurrentProduct } from '../../store/reducers/reducerProducts';
 
 interface propsForm{
-    id: number
     classes?: string;
 }
 
-const Form : FC<propsForm> = ({ id,classes }) => {
+const Form : FC<propsForm> = ({ classes }) => {
     const dispatch = useAppDispatch();
     const [addNewProduct, responseAdd] = useAddNewProductMutation();
     const [updateProduct, responseUpdate] = useUpdateProductMutation();
@@ -21,19 +20,33 @@ const Form : FC<propsForm> = ({ id,classes }) => {
     const [valuePrice, setValuePrice] = useState<string>("");
     const [valueImg, setValueImg] = useState<any>();
     const [valueDesc, setValueDesc] = useState<string>("");
+    const [validForm, setValidForm] = useState<boolean>(false)
     const { currentProduct } = useAppSelector((state) => state.reducerProducts)
 
     const computedClasses = classNames('form-block', classes);
 
     useEffect(() => {
-        console.log(currentProduct)
         setValueName(currentProduct?.title || "")
         setValuePrice(String(currentProduct?.price || ""))
         setValueImg(currentProduct?.image || "")
         setValueDesc(currentProduct?.description || "")
-        console.log(valueName)
     }, [currentProduct])
 
+    useEffect(() => {
+        setValidForm(validateFormInputs(valueName, valuePrice, valueDesc))
+    })
+
+    const validateFormInputs = (...args : string[]) => {
+        let validate = false;
+        for(var i = 0; i < args.length; i++){
+            if(!args[i]){
+                validate = false
+                break;
+            }
+            validate = true
+        }
+        return validate;
+    }
 
     const createData = () => {
         const data = new FormData();
@@ -82,17 +95,18 @@ const Form : FC<propsForm> = ({ id,classes }) => {
                 <Input name='img' type='file' label='Фото'
                     required={false}
                     onChange={handleFileChange}  
-                    classes='form-block__input'/>
+                    classes='form-block__input'
+                    accept='image/*,.png,.jpg'/>
                 <Input name='desc' label='Описание товара' 
                     value={valueDesc}
                     onChange={(e) => setValueDesc(e.target.value)}  
                     classes='form-block__input form-block__input-desc'/>
-                {!currentProduct && <Button types='default' classes='form-block__button' onClick={addNewProductEvent}>
+                {!currentProduct && <Button disabled={!validForm && true} types='default' classes='form-block__button' onClick={addNewProductEvent}>
                     Добавить товар
                 </Button>}
                 {currentProduct &&
                     <>
-                        <Button types='default' classes='form-block__button' onClick={updateProductEvent}>
+                        <Button disabled={!validForm && true} types='default' classes='form-block__button' onClick={updateProductEvent}>
                             Редактировать товар
                         </Button>
                         <Button types='cancel' classes='form-block__button' onClick={() => dispatch(setCurrentProduct(0))}>

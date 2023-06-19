@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import './Input.css';
 import classNames from 'classnames';
 import { HandySvg } from 'handy-svg';
@@ -8,8 +8,6 @@ interface IInputProps {
     classes?: string;
     onChange?: (e: ChangeEvent <HTMLInputElement>) => void;
     required?: boolean;
-    valid?: boolean;
-    error?: boolean
     type?: "text" | "file";
     value?: string;
     label: string;
@@ -19,8 +17,6 @@ interface IInputProps {
 const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
     classes, 
     label, 
-    valid = false,
-    error = false, 
     value,
     onChange,
     name,
@@ -28,6 +24,21 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
     type = "text", 
     ...attrs 
 }) => {
+    const [isDirty, setDirty] = useState<boolean>(false);
+    const [valid, setValid] = useState<boolean>(false);
+    const [error, setError] = useState<boolean>(false);
+    useEffect(() => {
+        if(required){
+            if(value){
+                setError(false)
+                setValid(true);
+            }
+            if(isDirty && !value){
+                setError(true);
+                setValid(false);
+            }
+        }
+    }, [valid, value, isDirty])
     let computedClasses = classNames('input-container', 
         {
         "input-container_valid": valid,
@@ -39,7 +50,7 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
         
     return (
         <div className={computedClasses}>
-            <input value={value} id={name} className="input" type={type} placeholder=" " {...attrs} onChange={onChange}/>
+            <input value={value} id={name} className="input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
             <div className="cut"></div>
             <label htmlFor={name} className="placeholder">{label}</label>
             {type === 'file' && <HandySvg src={fileAddSrc} className="input-container__file-icon"/>}
