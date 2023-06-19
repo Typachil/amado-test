@@ -9,15 +9,11 @@ interface propsProductsList{
     classes?: string;
 }
 
-const ProductsList : FC<propsProductsList> = ({
-    classes
-    }
-)=> {
+const ProductsList : FC<propsProductsList> = ({classes}) => {
 
     const {isLoading} = useGetProductsQuery();
 
     const { products } = useAppSelector((state) => state.reducerProducts);
-    console.log(products)
 
     const computedClasses = classNames('products-list__wrapper', classes);
     return (
@@ -39,7 +35,7 @@ const ProductsList : FC<propsProductsList> = ({
             <div className='products-empty'>
                 {isLoading ? <div className="lds-dual-ring"></div> : 
                     <>
-                        <img src='img/Empty.svg' />
+                        <img src='/img/Empty.svg' />
                         <h1>В данный момент товары отсутствуют</h1>
                     </>
                 }

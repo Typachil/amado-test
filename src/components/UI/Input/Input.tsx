@@ -6,9 +6,9 @@ import fileAddSrc from '../../../assets/file-add.svg';
 
 interface IInputProps {
     classes?: string;
-    onChange?: (e: ChangeEvent <HTMLInputElement>) => void;
+    onChange?: (e: any ) => void;
     required?: boolean;
-    type?: "text" | "file";
+    type?: "text" | "file" | "desc" | "number";
     value?: string;
     label: string;
     name: string;
@@ -43,19 +43,48 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
         {
         "input-container_valid": valid,
         "input-container_error": error,
-        "input-container_file": type === "file"
+        "input-container_file": type === "file",
+        
     }, classes)
 
     if(required) label += "*";
+
+    if(type === "desc"){
+        return (
+            <label className={computedClasses}>
+                <textarea
+                    id={name} 
+                    className="input" 
+                    placeholder=" " 
+                    onBlur={() => setDirty(true)}
+                    onChange={onChange}>
+                        {value}
+                </textarea>
+                <div className="placeholder">{label}</div>
+                {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
+            </label>
+        )
+    }
+
+    if(type === "file"){
+        return(
+            <label className={computedClasses}>
+                <input id={name} className="input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
+                <div className="cut">{type === "file" && value}</div>
+                <div className="placeholder">{label}</div>
+                {type === 'file' && <HandySvg src={fileAddSrc} className="input-container__file-icon"/>}
+                {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
+            </label>
+        )
+        
+    }
         
     return (
-        <div className={computedClasses}>
+        <label className={computedClasses}>
             <input value={value} id={name} className="input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
-            <div className="cut"></div>
-            <label htmlFor={name} className="placeholder">{label}</label>
-            {type === 'file' && <HandySvg src={fileAddSrc} className="input-container__file-icon"/>}
+            <div className="placeholder">{label}</div>
             {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
-        </div>
+        </label>
     );
 };
 

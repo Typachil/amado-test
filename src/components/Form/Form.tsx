@@ -53,7 +53,7 @@ const Form : FC<propsForm> = ({ classes }) => {
         data.append("title", valueName);
         data.append("price", valuePrice);
         data.append("description", valueDesc);
-        data.append("image", valueImg);
+        if(valueImg?.name) data.append("image", valueImg);
         return data;
     }
 
@@ -75,6 +75,7 @@ const Form : FC<propsForm> = ({ classes }) => {
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setValueImg(e.target.files[0]);
+            console.log(valueImg?.name)
         }
       };
 
@@ -88,16 +89,19 @@ const Form : FC<propsForm> = ({ classes }) => {
                     onChange={(e) => setValueName(e.target.value)} 
                     classes='form-block__input'
                 />
-                <Input name='price' label='Цена' 
+                <Input name='price' label='Цена'
+                    type='number' 
                     value={valuePrice}
                     onChange={(e) => setValuePrice(e.target.value)} 
                     classes='form-block__input'/>
                 <Input name='img' type='file' label='Фото'
+                    value={valueImg?.name}
                     required={false}
                     onChange={handleFileChange}  
                     classes='form-block__input'
                     accept='image/*,.png,.jpg'/>
-                <Input name='desc' label='Описание товара' 
+                <Input name='desc' label='Описание товара'
+                    type='desc' 
                     value={valueDesc}
                     onChange={(e) => setValueDesc(e.target.value)}  
                     classes='form-block__input form-block__input-desc'/>

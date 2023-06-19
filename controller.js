@@ -59,7 +59,7 @@ class Controller {
     let currentProduct
     products = products.map(product => {
       if(product.id === +id) {
-        if(product.image){
+        if(req.files && product.image){
           deleteFile(product.image)
           createFile(product.id, req.files.image)
           product.image = directoryName + product.id + req.files.image.name
