@@ -1,6 +1,6 @@
 const fs = require("fs")
-const pathFile = __dirname + '/src/uploads/'
-console.log(pathFile);
+const pathFile = __dirname + '/public';
+const directoryName = "/uploads/";
 function deleteFile(name) {
   fs.unlink(pathFile + name, (err) => {
     if(err) {
@@ -10,7 +10,7 @@ function deleteFile(name) {
 }
 
 function createFile(id, file) {
-  fs.writeFile(pathFile + id + file.name, file.data, (err) => {
+  fs.writeFile(pathFile + directoryName + id + file.name, file.data, (err) => {
     if(err) {
       console.log(err)
     }
@@ -37,7 +37,7 @@ class Controller {
     }
     if(req.files){
       createFile(newProduct.id, req.files.image)
-      newProduct.image = "/src/uploads/" + newProduct.id + req.files.image.name
+      newProduct.image = directoryName + newProduct.id + req.files.image.name
     }else{
       newProduct.image = ""
     }
@@ -62,7 +62,7 @@ class Controller {
         if(product.image){
           deleteFile(product.image)
           createFile(product.id, req.files.image)
-          product.image = "/src/uploads/" + product.id + req.files.image.name
+          product.image = directoryName + product.id + req.files.image.name
         }
         product.title = title
         product.price = price

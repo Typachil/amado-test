@@ -97,6 +97,16 @@
   color: var(--color-dark);
 }
 
+/* .input-container_file input{
+  opacity: 0;
+  height: 0;
+  width: 0;
+  line-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
 .input-container_file .placeholder{
   
-}
+} */
