@@ -17,7 +17,7 @@ const Form : FC<propsForm> = ({ classes }) => {
     const [updateProduct, responseUpdate] = useUpdateProductMutation();
 
     const [valueName, setValueName] = useState<string>("");
-    const [valuePrice, setValuePrice] = useState<string>("");
+    const [valuePrice, setValuePrice] = useState<number | string>();
     const [valueImg, setValueImg] = useState<any>();
     const [valueDesc, setValueDesc] = useState<string>("");
     const [validForm, setValidForm] = useState<boolean>(false)
@@ -27,14 +27,21 @@ const Form : FC<propsForm> = ({ classes }) => {
 
     useEffect(() => {
         setValueName(currentProduct?.title || "")
-        setValuePrice(String(currentProduct?.price || ""))
+        setValuePrice(currentProduct?.price || "")
         setValueImg(currentProduct?.image || "")
         setValueDesc(currentProduct?.description || "")
     }, [currentProduct])
 
     useEffect(() => {
-        setValidForm(validateFormInputs(valueName, valuePrice, valueDesc))
-    })
+        setValidForm(validateFormInputs(valueName, String(valuePrice), valueDesc))
+    }, [valueName, valuePrice, valueDesc])
+
+    const cleanForm = () => {
+        setValueName("");
+        setValuePrice("");
+        setValueImg("");
+        setValueDesc("");
+    } 
 
     const validateFormInputs = (...args : string[]) => {
         let validate = false;
@@ -51,31 +58,38 @@ const Form : FC<propsForm> = ({ classes }) => {
     const createData = () => {
         const data = new FormData();
         data.append("title", valueName);
-        data.append("price", valuePrice);
+        data.append("price", String(valuePrice));
         data.append("description", valueDesc);
         if(valueImg?.name) data.append("image", valueImg);
         return data;
     }
 
-    const addNewProductEvent = (e : any) => {
-        const productData = createData();
+    const addNewProductEvent = () => {
+        const productData = createData();   
         addNewProduct(productData)
           .unwrap()
-          .then(() => {})
+          .then((res) => { 
+            if(res){
+                cleanForm();
+            }
+          })
     }
 
-    const updateProductEvent = (e : any) => {
+    const updateProductEvent = () => {
         const productData = createData();
         productData.append("id", String(currentProduct?.id));
         updateProduct(productData)
         .unwrap()
-        .then((response) => { response &&  dispatch(setCurrentProduct(0))})
+        .then((res) => { 
+            if(res){
+                dispatch(setCurrentProduct(0))
+            }
+        })
     }
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setValueImg(e.target.files[0]);
-            console.log(valueImg?.name)
         }
       };
 
@@ -87,24 +101,22 @@ const Form : FC<propsForm> = ({ classes }) => {
                 <Input name='name' label='Название' 
                     value={valueName} 
                     onChange={(e) => setValueName(e.target.value)} 
-                    classes='form-block__input'
                 />
                 <Input name='price' label='Цена'
                     type='number' 
                     value={valuePrice}
                     onChange={(e) => setValuePrice(e.target.value)} 
-                    classes='form-block__input'/>
+                    />
                 <Input name='img' type='file' label='Фото'
                     value={valueImg?.name}
                     required={false}
                     onChange={handleFileChange}  
-                    classes='form-block__input'
                     accept='image/*,.png,.jpg'/>
                 <Input name='desc' label='Описание товара'
                     type='desc' 
                     value={valueDesc}
                     onChange={(e) => setValueDesc(e.target.value)}  
-                    classes='form-block__input form-block__input-desc'/>
+                    classes='form-block__input-desc'/>
                 {!currentProduct && <Button disabled={!validForm && true} types='default' classes='form-block__button' onClick={addNewProductEvent}>
                     Добавить товар
                 </Button>}

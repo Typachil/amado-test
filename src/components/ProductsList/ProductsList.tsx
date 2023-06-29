@@ -1,18 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './ProductsList.css';
 import { useAppSelector } from '../../hooks/redux';
 import ProductCard from '../productCard/productCard';
-import { useGetProductsQuery } from '../../store/services/ProductsService';
 
 interface propsProductsList{
     classes?: string;
 }
 
 const ProductsList : FC<propsProductsList> = ({classes}) => {
-
-    const {isLoading} = useGetProductsQuery();
-
     const { products } = useAppSelector((state) => state.reducerProducts);
 
     const computedClasses = classNames('products-list__wrapper', classes);
@@ -31,14 +27,10 @@ const ProductsList : FC<propsProductsList> = ({classes}) => {
                     )
                 })}
             </div> 
-            {!products && 
+            {!products?.length && 
             <div className='products-empty'>
-                {isLoading ? <div className="lds-dual-ring"></div> : 
-                    <>
-                        <img src='/img/Empty.svg' />
-                        <h1>В данный момент товары отсутствуют</h1>
-                    </>
-                }
+                <img src='/img/Empty.svg' />
+                <h1>В данный момент товары отсутствуют</h1>
             </div>
             }  
         </div>

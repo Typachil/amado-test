@@ -32,7 +32,7 @@ class Controller {
     const newProduct = {
       id: Date.now(),
       title,
-      price,
+      price : Number(price),
       description
     }
     if(req.files){
@@ -65,7 +65,7 @@ class Controller {
           product.image = directoryName + product.id + req.files.image.name
         }
         product.title = title
-        product.price = price
+        product.price = Number(price)
         product.description = description
         currentProduct = JSON.parse(JSON.stringify(product))
       }

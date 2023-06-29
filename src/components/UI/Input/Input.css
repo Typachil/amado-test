@@ -1,27 +1,9 @@
-/* .label-default{
-    font-size: 12px;
-}
-
-.label-default input{
-    width: 180px;
-    height: 33px;
-    border-radius: 3px;
-    border: 1px solid var(--color-light-gray);
-    color: var(--color-light-dark);
-    background-color: var(--color-light);
-    font-size: 16px;
-    padding: 7px 10px;
-}
-
-.label-default input:focus{
-    outline: none;
-} */
-
 .input-container {
   position: relative;
   min-width: 180px;
   box-sizing: border-box;
   display: block;
+  padding-bottom: 31px;
 }
 
 .input-container_valid input, .input-container_valid textarea{
@@ -59,22 +41,21 @@
   padding: 7px 10px;
 }
 
-.cut {
+.file-value {
   height: 20px;
   left: 10px;
-  top: 0;
+  top: 5px;
   position: absolute;
   transform: translateY(0);
   transition: transform 200ms;
-  width: 76px;
 }
 
-.input:focus ~ .cut,
-.input:not(:placeholder-shown) ~ .cut {
+.input:focus ~ .file-value,
+.input:not(:placeholder-shown) ~ .file-value {
   transform: translateY(8px);
 }
 
-.placeholder {
+.placeholder, .placeholder-file{
   color: var(--color-light-dark);
   left: 10px;
   line-height: 14px;
@@ -98,6 +79,11 @@
   color: var(--color-dark);
 }
 
+.file-value:not(:empty) ~ .placeholder-file{
+  transform: translateY(-35px) translateX(-10px) scale(0.85);
+  color: var(--color-dark);
+}
+
 .input-container_file .input{
   opacity: 0;
   height: 0;
@@ -109,6 +95,10 @@
 }
 
 .input-container_file{
+  position: relative;
+  min-width: 180px;
+  box-sizing: border-box;
+  display: block;
   border-radius: 3px;
   border: 1px solid var(--color-light-gray);
   padding: 7px 10px;
