@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Input.css';
 import classNames from 'classnames';
 import { HandySvg } from 'handy-svg';
@@ -10,6 +10,7 @@ interface IInputProps {
     required?: boolean;
     type?: "text" | "file" | "desc" | "number";
     value?: string | number;
+    dirtyForm?: boolean;
     label: string;
     name: string;
 }
@@ -21,13 +22,19 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
     onChange,
     name,
     required = true,
-    type = "text", 
+    type = "text",
+    dirtyForm, 
     ...attrs 
 }) => {
+
     const [isDirty, setDirty] = useState<boolean>(false);
     const [valid, setValid] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
+
     useEffect(() => {
+        if(!dirtyForm){
+            setDirty(false);
+        }
         if(required){
             if(value){
                 setError(false)
@@ -37,14 +44,19 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
                 setError(true);
                 setValid(false);
             }
+            if(!dirtyForm){
+                setValid(false);
+                setError(false);
+            }
         }
-    }, [valid, value, isDirty])
+    }, [valid, value, isDirty, dirtyForm])
+
     let computedClasses = classNames(
         {
-        "input-container": type !== "file",
-        "input-container_valid": valid,
-        "input-container_error": error,
-        "input-container_file": type === "file",
+        "input-wrapper": type !== "file",
+        "input-wrapper--valid": valid,
+        "input-wrapper--error": error,
+        "input-wrapper--file": type === "file",
         
     }, classes)
 
@@ -52,41 +64,48 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
 
     if(type === "desc"){
         return (
-            <label className={computedClasses}>
-                <textarea
-                    id={name} 
-                    className="input" 
-                    placeholder=" " 
-                    onBlur={() => setDirty(true)}
-                    onChange={onChange}
-                    value={value}>
-                        
-                </textarea>
-                <div className="placeholder">{label}</div>
+            <div className='input-container'>
+                <label className={computedClasses}>
+                    <textarea
+                        id={name} 
+                        className="input-wrapper__input" 
+                        placeholder=" " 
+                        onBlur={() => setDirty(true)}
+                        onChange={onChange}
+                        value={value}>
+                            
+                    </textarea>
+                    <div className="input-wrapper__placeholder">{label}</div>    
+                </label>
                 {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
-            </label>
+            </div>
         )
     }
 
     if(type === "file"){
         return(
-            <label className={computedClasses}>
-                <input id={name} className="input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
-                <div className="file-value">{type === "file" && value}</div>
-                <div className="placeholder-file">{label}</div>
-                {type === 'file' && <HandySvg src={fileAddSrc} className="input-container__file-icon"/>}
+            <div className='input-container'>
+                <label className={computedClasses}>
+                    <input id={name} className="input-wrapper__input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
+                    <div className="input-wrapper__file-value">{type === "file" && value}</div>
+                    <div className="input-wrapper__placeholder-file">{label}</div>
+                    {type === 'file' && <HandySvg src={fileAddSrc} className="input-wrapper__file-icon"/>}
+                </label>
                 {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
-            </label>
+            </div>
+            
         )
         
     }
         
     return (
-        <label className={computedClasses}>
-            <input value={value} id={name} className="input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
-            <div className="placeholder">{label}</div>
+        <div className='input-container'>
+            <label className={computedClasses}>
+                <input value={value} id={name} className="input-wrapper__input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
+                <div className="input-wrapper__placeholder">{label}</div>
+            </label>
             {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
-        </label>
+        </div>
     );
 };
 

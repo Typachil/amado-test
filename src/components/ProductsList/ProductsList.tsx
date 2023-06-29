@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 import './ProductsList.css';
 import { useAppSelector } from '../../hooks/redux';
-import ProductCard from '../productCard/productCard';
+import ProductCard from '../ProductCard/ProductCard';
 
 interface propsProductsList{
     classes?: string;

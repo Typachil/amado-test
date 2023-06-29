@@ -4,13 +4,13 @@ import { productsAPI } from "../services/ProductsService";
 
 export interface State{
     products: Product[] | null;
-    currentProduct: Product | null;
+    currentProduct: Product | undefined;
     isLoading: boolean;
 }
 
 const initialState: State = {
     products: null,
-    currentProduct: null,
+    currentProduct: undefined,
     isLoading: false  
 }
 
@@ -26,8 +26,8 @@ const productsSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
-        setCurrentProduct(state, action : PayloadAction<number>){
-            state.currentProduct = state.products?.find(item => item.id === action.payload) || null;
+        setCurrentProduct(state, action : PayloadAction<number | undefined>){
+            state.currentProduct = state.products?.find(item => item.id === action.payload);
         },
         setLoading(state, action : PayloadAction<boolean>){
             state.isLoading = action.payload;

@@ -1,25 +1,30 @@
-.input-container {
+.input-container{
+  position: relative;
+  padding-bottom: 31px;
+}
+
+.input-wrapper {
   position: relative;
   min-width: 180px;
   box-sizing: border-box;
   display: block;
-  padding-bottom: 31px;
 }
 
-.input-container_valid input, .input-container_valid textarea{
+.input-wrapper--valid .input-wrapper__input{
   border-color: var(--color-primary);
 }
 
-.input-container_error input, .input-container_error textarea{
+.input-wrapper--error .input-wrapper__input{
   border-color: var(--color-danger);
 }
 
 .input-container__message-error{
+  position: absolute;
   color: var(--color-danger);
   font-size: 9px;
 }
 
-.input-container__file-icon{
+.input-wrapper__file-icon{
   position: absolute;
   top: 25%;
   cursor: pointer;
@@ -28,7 +33,7 @@
   height: 19px;
 }
 
-.input {
+.input-wrapper__input {
   background-color: var(--color-light);
   border-radius: 3px;
   border: 1px solid var(--color-light-gray);
@@ -41,7 +46,7 @@
   padding: 7px 10px;
 }
 
-.file-value {
+.input-wrapper__file-value {
   height: 20px;
   left: 10px;
   top: 5px;
@@ -50,12 +55,12 @@
   transition: transform 200ms;
 }
 
-.input:focus ~ .file-value,
-.input:not(:placeholder-shown) ~ .file-value {
-  transform: translateY(8px);
+.input-wrapper__input:focus ~ .input-wrapper__file-value,
+.input-wrapper__input:not(:placeholder-shown) ~ .input-wrapper__file-value {
+  transform: translateY(5px);
 }
 
-.placeholder, .placeholder-file{
+.input-wrapper__placeholder, .input-wrapper__placeholder-file{
   color: var(--color-light-dark);
   left: 10px;
   line-height: 14px;
@@ -66,35 +71,25 @@
   top: 12px;
 }
 
-.input:focus ~ .placeholder,
-.input:not(:placeholder-shown) ~ .placeholder {
-  transform: translateY(-35px) translateX(-10px) scale(0.85);
+.input-wrapper__input:focus ~ .input-wrapper__placeholder,
+.input-wrapper__input:not(:placeholder-shown) ~ .input-wrapper__placeholder {
+  transform: translateY(-30px) translateX(-10px) scale(0.85);
 }
 
-.input:not(:placeholder-shown) ~ .placeholder {
+.input-wrapper__input:not(:placeholder-shown) ~ .input-wrapper__placeholder {
   color: var(--color-light-dark);
 }
 
-.input:focus ~ .placeholder {
+.input-wrapper__input:focus ~ .input-wrapper__placeholder {
   color: var(--color-dark);
 }
 
-.file-value:not(:empty) ~ .placeholder-file{
-  transform: translateY(-35px) translateX(-10px) scale(0.85);
+.input-wrapper__file-value:not(:empty) ~ .input-wrapper__placeholder-file{
+  transform: translateY(-30px) translateX(-10px) scale(0.85);
   color: var(--color-dark);
 }
 
-.input-container_file .input{
-  opacity: 0;
-  height: 0;
-  width: 0;
-  line-height: 0;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-}
-
-.input-container_file{
+.input-wrapper--file{
   position: relative;
   min-width: 180px;
   box-sizing: border-box;
@@ -105,6 +100,16 @@
   cursor: pointer;
 }
 
-.input-container textarea{
+.input-wrapper--file .input-wrapper__input{
+  opacity: 0;
+  height: 0;
+  width: 0;
+  line-height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.input-wrapper textarea{
   resize: none;
 }

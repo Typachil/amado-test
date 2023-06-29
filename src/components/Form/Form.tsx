@@ -20,12 +20,14 @@ const Form : FC<propsForm> = ({ classes }) => {
     const [valuePrice, setValuePrice] = useState<number | string>();
     const [valueImg, setValueImg] = useState<any>();
     const [valueDesc, setValueDesc] = useState<string>("");
-    const [validForm, setValidForm] = useState<boolean>(false)
+    const [validForm, setValidForm] = useState<boolean>(false);
+    const [dirtyForm, setDirtyForm] = useState<boolean>(false);
     const { currentProduct } = useAppSelector((state) => state.reducerProducts)
 
     const computedClasses = classNames('form-block', classes);
 
     useEffect(() => {
+        setDirtyForm(!dirtyForm);
         setValueName(currentProduct?.title || "")
         setValuePrice(currentProduct?.price || "")
         setValueImg(currentProduct?.image || "")
@@ -71,6 +73,7 @@ const Form : FC<propsForm> = ({ classes }) => {
           .then((res) => { 
             if(res){
                 cleanForm();
+                setDirtyForm(false);
             }
           })
     }
@@ -83,6 +86,7 @@ const Form : FC<propsForm> = ({ classes }) => {
         .then((res) => { 
             if(res){
                 dispatch(setCurrentProduct(0))
+                setDirtyForm(false);
             }
         })
     }
@@ -90,8 +94,14 @@ const Form : FC<propsForm> = ({ classes }) => {
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setValueImg(e.target.files[0]);
+            setDirtyForm(true);
         }
-      };
+    };
+
+    const cancelEdit = () => {
+        dispatch(setCurrentProduct(undefined))
+        setDirtyForm(false);
+    }
 
     return (
         <div className={computedClasses}>
@@ -99,33 +109,46 @@ const Form : FC<propsForm> = ({ classes }) => {
             <p>Заполните все обязательные поля с *</p>
             <form>
                 <Input name='name' label='Название' 
-                    value={valueName} 
-                    onChange={(e) => setValueName(e.target.value)} 
+                    value={valueName}
+                    dirtyForm={dirtyForm} 
+                    onChange={(e) => {
+                        setValueName(e.target.value);
+                        setDirtyForm(true)
+                    }} 
                 />
                 <Input name='price' label='Цена'
                     type='number' 
                     value={valuePrice}
-                    onChange={(e) => setValuePrice(e.target.value)} 
+                    dirtyForm={dirtyForm} 
+                    onChange={(e) => {
+                        setValuePrice(e.target.value);
+                        setDirtyForm(true)
+                    }}
                     />
                 <Input name='img' type='file' label='Фото'
                     value={valueImg?.name}
                     required={false}
+                    dirtyForm={dirtyForm} 
                     onChange={handleFileChange}  
                     accept='image/*,.png,.jpg'/>
                 <Input name='desc' label='Описание товара'
                     type='desc' 
                     value={valueDesc}
-                    onChange={(e) => setValueDesc(e.target.value)}  
+                    dirtyForm={dirtyForm} 
+                    onChange={(e) => {
+                        setValueDesc(e.target.value);
+                        setDirtyForm(true)
+                    }}
                     classes='form-block__input-desc'/>
-                {!currentProduct && <Button disabled={!validForm && true} types='default' classes='form-block__button' onClick={addNewProductEvent}>
+                {!currentProduct && <Button disabled={!validForm && true} type="submit" variant='default' classes='form-block__button' onClick={addNewProductEvent}>
                     Добавить товар
                 </Button>}
                 {currentProduct &&
                     <>
-                        <Button disabled={!validForm && true} types='default' classes='form-block__button' onClick={updateProductEvent}>
+                        <Button disabled={!validForm && true} type="submit" variant='default' classes='form-block__button' onClick={updateProductEvent}>
                             Редактировать товар
                         </Button>
-                        <Button types='cancel' classes='form-block__button' onClick={() => dispatch(setCurrentProduct(0))}>
+                        <Button variant='cancel' classes='form-block__button' onClick={cancelEdit}>
                             Отменить редактирование
                         </Button>
                     </>      

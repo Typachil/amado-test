@@ -42,6 +42,8 @@
     line-height: 18px;
     margin-bottom: 20px;
     flex-grow: 2;
+    word-wrap: break-word;
+    overflow: auto;
 }
 
 .product-card__desc b{
@@ -71,11 +73,11 @@
     height: 22px;
 }
 
-.product-card__button-edit{
+.product-card__button--edit{
     top: 10px;
 }
 
-.product-card__button-trash{
+.product-card__button--trash{
     top: 50px;
 }
 

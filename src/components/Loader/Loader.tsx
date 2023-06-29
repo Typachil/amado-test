@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import './Loader.css';
 import { useAppSelector } from "../../hooks/redux";
 

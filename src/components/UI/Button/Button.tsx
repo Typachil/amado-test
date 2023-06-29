@@ -7,7 +7,7 @@ interface IButtonProps {
     disabled?: boolean;
     loading?: boolean;
     onClick?: (e : any) => void;
-    types?: 'default' | 'cancel';
+    variant?: 'default' | 'cancel';
     children: React.ReactNode;
 }
 
@@ -17,12 +17,12 @@ const Button: FC<IButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & 
     loading,
     onClick,
     children,
-    types = 'default',
+    variant = 'default',
     ...attrs 
 }) => {
 
     let computedClasses = classNames('btn',{
-        [`btn-${types}`]: types,
+        [`btn-${variant}`]: variant,
         'btn_disabled': disabled,
     }, classes)
 
