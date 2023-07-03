@@ -148,7 +148,7 @@ const Form : FC<propsForm> = ({ classes }) => {
                         <Button disabled={!validForm && true} type="submit" variant='default' classes='form-block__button' onClick={updateProductEvent}>
                             Редактировать товар
                         </Button>
-                        <Button variant='cancel' classes='form-block__button' onClick={cancelEdit}>
+                        <Button variant='cancel' type="button" classes='form-block__button' onClick={cancelEdit}>
                             Отменить редактирование
                         </Button>
                     </>      

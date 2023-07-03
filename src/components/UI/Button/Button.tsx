@@ -28,7 +28,7 @@ const Button: FC<IButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & 
 
 
     return (
-        <button type={'button'}
+        <button
             onClick={onClick} 
             className={computedClasses} 
             disabled={disabled}
