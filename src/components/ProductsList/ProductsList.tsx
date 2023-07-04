@@ -3,13 +3,15 @@ import classNames from 'classnames';
 import './ProductsList.css';
 import { useAppSelector } from '../../hooks/redux';
 import ProductCard from '../ProductCard/ProductCard';
+import { useGetProductsQuery } from '../../store/services/ProductsService';
 
 interface propsProductsList{
     classes?: string;
 }
 
 const ProductsList : FC<propsProductsList> = ({classes}) => {
-    const { products } = useAppSelector((state) => state.reducerProducts);
+    const { products, isLoading } = useAppSelector((state) => state.reducerProducts);
+    const {} = useGetProductsQuery();
 
     const computedClasses = classNames('products-list__wrapper', classes);
     return (
@@ -27,7 +29,7 @@ const ProductsList : FC<propsProductsList> = ({classes}) => {
                     )
                 })}
             </div> 
-            {!products?.length && 
+            {!products?.length && !isLoading && 
             <div className='products-empty'>
                 <img src='/img/Empty.svg' />
                 <h1>В данный момент товары отсутствуют</h1>

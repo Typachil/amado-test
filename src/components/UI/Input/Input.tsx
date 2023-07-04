@@ -53,10 +53,10 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
 
     let computedClasses = classNames(
         {
-        "input-wrapper": type !== "file",
-        "input-wrapper--valid": valid,
-        "input-wrapper--error": error,
-        "input-wrapper--file": type === "file",
+        "input-container__label": type !== "file",
+        "input-container__label--valid": valid,
+        "input-container__label--error": error,
+        "input-container__label--file": type === "file",
         
     }, classes)
 
@@ -68,14 +68,14 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
                 <label className={computedClasses}>
                     <textarea
                         id={name} 
-                        className="input-wrapper__input" 
+                        className="input-container__input" 
                         placeholder=" " 
                         onBlur={() => setDirty(true)}
                         onChange={onChange}
                         value={value}>
                             
                     </textarea>
-                    <div className="input-wrapper__placeholder">{label}</div>    
+                    <div className="input-container__placeholder">{label}</div>    
                 </label>
                 {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
             </div>
@@ -86,10 +86,10 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
         return(
             <div className='input-container'>
                 <label className={computedClasses}>
-                    <input id={name} className="input-wrapper__input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
-                    <div className="input-wrapper__file-value">{type === "file" && value}</div>
-                    <div className="input-wrapper__placeholder-file">{label}</div>
-                    {type === 'file' && <HandySvg src={fileAddSrc} className="input-wrapper__file-icon"/>}
+                    <input id={name} className="input-container__input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
+                    <div className="input-container__file-value">{type === "file" && value}</div>
+                    <div className="input-container__placeholder-file">{label}</div>
+                    {type === 'file' && <HandySvg src={fileAddSrc} className="input-container__file-icon"/>}
                 </label>
                 {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
             </div>
@@ -101,8 +101,8 @@ const Input: FC<IInputProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
     return (
         <div className='input-container'>
             <label className={computedClasses}>
-                <input value={value} id={name} className="input-wrapper__input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
-                <div className="input-wrapper__placeholder">{label}</div>
+                <input value={value} id={name} className="input-container__input" type={type} placeholder=" " {...attrs} onChange={onChange} onBlur={() => setDirty(true)}/>
+                <div className="input-container__placeholder">{label}</div>
             </label>
             {error && <div className='input-container__message-error'>Обязательное поле для заполнения</div>}
         </div>

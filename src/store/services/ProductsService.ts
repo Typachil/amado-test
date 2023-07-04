@@ -18,7 +18,7 @@ export const productsAPI = createApi({
               url: `/products/${id}`,
               method: 'DELETE',
             }),
-            invalidatesTags: [{ type: 'Product'}],
+            invalidatesTags: ['Product'],
           }),
         addNewProduct: builder.mutation<{}, FormData>({
             query: (payload) => ({

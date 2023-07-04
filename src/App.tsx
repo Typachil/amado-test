@@ -5,8 +5,6 @@ import Loader from './components/Loader/Loader';
 import { useGetProductsQuery } from './store/services/ProductsService';
 
 function App() {
-
-  const {} = useGetProductsQuery();
   
   return (
     <>

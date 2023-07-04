@@ -3,18 +3,18 @@
   padding-bottom: 31px;
 }
 
-.input-wrapper {
+.input-container__label{
   position: relative;
   min-width: 180px;
   box-sizing: border-box;
   display: block;
 }
 
-.input-wrapper--valid .input-wrapper__input{
+.input-container__label--valid .input-container__input{
   border-color: var(--color-primary);
 }
 
-.input-wrapper--error .input-wrapper__input{
+.input-container__label--error .input-container__input{
   border-color: var(--color-danger);
 }
 
@@ -24,7 +24,7 @@
   font-size: 9px;
 }
 
-.input-wrapper__file-icon{
+.input-container__file-icon{
   position: absolute;
   top: 25%;
   cursor: pointer;
@@ -33,7 +33,7 @@
   height: 19px;
 }
 
-.input-wrapper__input {
+.input-container__input {
   background-color: var(--color-light);
   border-radius: 3px;
   border: 1px solid var(--color-light-gray);
@@ -46,24 +46,17 @@
   padding: 7px 10px;
 }
 
-.input-wrapper__file-value {
+.input-container__file-value {
   height: 20px;
   left: 10px;
-  top: 5px;
+  top: 20%;
   position: absolute;
-  transform: translateY(0);
-  transition: transform 200ms;
 }
 
-.input-wrapper__input:focus ~ .input-wrapper__file-value,
-.input-wrapper__input:not(:placeholder-shown) ~ .input-wrapper__file-value {
-  transform: translateY(5px);
-}
-
-.input-wrapper__placeholder, .input-wrapper__placeholder-file{
+.input-container__placeholder, .input-container__placeholder-file{
   color: var(--color-light-dark);
   left: 10px;
-  line-height: 14px;
+  line-height: 10px;
   pointer-events: none;
   position: absolute;
   transform-origin: 0 50%;
@@ -71,25 +64,25 @@
   top: 12px;
 }
 
-.input-wrapper__input:focus ~ .input-wrapper__placeholder,
-.input-wrapper__input:not(:placeholder-shown) ~ .input-wrapper__placeholder {
-  transform: translateY(-30px) translateX(-10px) scale(0.85);
+.input-container__input:focus ~ .input-container__placeholder,
+.input-container__input:not(:placeholder-shown) ~ .input-container__placeholder {
+  transform: translateY(-25px) translateX(-10px) scale(0.65);
 }
 
-.input-wrapper__input:not(:placeholder-shown) ~ .input-wrapper__placeholder {
+.input-container__input:not(:placeholder-shown) ~ .input-container__placeholder {
   color: var(--color-light-dark);
 }
 
-.input-wrapper__input:focus ~ .input-wrapper__placeholder {
+.input-container__input:focus ~ .input-container__placeholder {
   color: var(--color-dark);
 }
 
-.input-wrapper__file-value:not(:empty) ~ .input-wrapper__placeholder-file{
-  transform: translateY(-30px) translateX(-10px) scale(0.85);
+.input-container__file-value:not(:empty) ~ .input-container__placeholder-file{
+  transform: translateY(-25px) translateX(-10px) scale(0.65);
   color: var(--color-dark);
 }
 
-.input-wrapper--file{
+.input-container__label--file{
   position: relative;
   min-width: 180px;
   box-sizing: border-box;
@@ -100,7 +93,7 @@
   cursor: pointer;
 }
 
-.input-wrapper--file .input-wrapper__input{
+.input-container__label--file .input-container__input{
   opacity: 0;
   height: 0;
   width: 0;
@@ -110,6 +103,6 @@
   margin: 0;
 }
 
-.input-wrapper textarea{
+.input-container textarea{
   resize: none;
 }
