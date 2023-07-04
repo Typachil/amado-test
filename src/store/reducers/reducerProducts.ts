@@ -22,6 +22,10 @@ function isMatchingAction(action: AnyAction) {
     return action.type.endsWith('match')
 }
 
+function isRejectAction(action: AnyAction) {
+    return action.type.endsWith('rejected')
+}
+
 const productsSlice = createSlice({
     name: 'products',
     initialState,
@@ -49,6 +53,12 @@ const productsSlice = createSlice({
         )
         builder.addMatcher(
             isMatchingAction,
+            (state) => {
+                state.isLoading = false
+            }
+        )
+        builder.addMatcher(
+            isRejectAction,
             (state) => {
                 state.isLoading = false
             }
